@@ -7,7 +7,9 @@
 	"description": "What am I about?",
 	"main": "server.js",
 	"scripts": {
-		"start": "node server.js"
+		"start": "node server.js",
+		"dev": "DEBUG:my-hyperdev-app:* nodemon server.js",
+		"test": "NODE_ENV=test mocha --recursive"
 	},
 	"dependencies": {
 		"express": "^4.14.0",
@@ -20,9 +22,6 @@
 		"zombie": "^5.0.5",
 		"helmet": "^3.1.0"
 	},
-	"engines": {
-		"node": "4.4.3"
-	},
 	"repository": {
 		"type": "git",
 		"url": "https://hyperdev.com/#!/project/welcome-project"
@@ -32,5 +31,8 @@
 		"hyperdev",
 		"express"
 	],
-	"license": "MIT"
+	"license": "MIT",
+	"devDependencies": {
+		"nodemon": "^1.19.0"
+	}
 }

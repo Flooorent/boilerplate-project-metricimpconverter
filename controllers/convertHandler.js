@@ -9,9 +9,17 @@
 function ConvertHandler() {
   
   this.getNum = function(input) {
-    var result;
+    if (input.split('.').length >= 3) {
+      throw new TypeError(`Bad input: ${input}`)
+    }
     
-    return result;
+    const result = parseFloat(input);
+    
+    if (result) {
+      return result
+    }
+    
+    throw new TypeError(`Bad input: ${input}`)
   };
   
   this.getUnit = function(input) {

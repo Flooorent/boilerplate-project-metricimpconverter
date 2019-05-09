@@ -13,13 +13,13 @@ var server = require('../server');
 
 chai.use(chaiHttp);
 
-suite('Functional Tests', function() {
+describe('Functional Tests', function() {
 
-  suite('Routing Tests', function() {
+  describe('Routing Tests', function() {
     
-    suite('GET /api/convert => conversion object', function() {
+    describe('GET /api/convert => conversion object', function() {
       
-      test('Convert 10L (valid input)', function(done) {
+      it('Convert 10L (valid input)', function(done) {
        chai.request(server)
         .get('/api/convert')
         .query({input: '10L'})
@@ -33,22 +33,22 @@ suite('Functional Tests', function() {
         });
       });
       
-      test('Convert 32g (invalid input unit)', function(done) {
+      it('Convert 32g (invalid input unit)', function(done) {
         
         //done();
       });
       
-      test('Convert 3/7.2/4kg (invalid number)', function(done) {
+      it('Convert 3/7.2/4kg (invalid number)', function(done) {
         
         //done();
       });  
       
-      test('Convert 3/7.2/4kilomegagram (invalid number and unit)', function(done) {
+      it('Convert 3/7.2/4kilomegagram (invalid number and unit)', function(done) {
         
         //done();
       });
       
-      test('Convert kg (no number)', function(done) {
+      it('Convert kg (no number)', function(done) {
         
         //done();
       });
