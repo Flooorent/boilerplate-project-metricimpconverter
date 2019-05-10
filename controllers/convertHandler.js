@@ -23,30 +23,88 @@ function ConvertHandler() {
   };
   
   this.getUnit = function(input) {
-    var result;
-    
-    return result;
+    const units = ['gal', 'l', 'mi', 'km', 'lbs', 'kg', 'GAL', 'L', 'MI', 'KM', 'LBS', 'KG']
+    if (units.includes(input)) {
+      return input
+    }
+
+    throw new TypeError(`Bad input: '${input}' should be one of ${units.join(', ')}`)
   };
   
   this.getReturnUnit = function(initUnit) {
-    var result;
-    
-    return result;
+    if(!initUnit) {
+      throw new TypeError(`Bad input: '${initUnit}' should be one of ${Object.keys(inputToOutputUnit).join(', ')}`)
+    }
+    const inputToOutputUnit = {
+      'gal': 'l',
+      'l': 'gal',
+      'mi': 'km',
+      'km': 'mi',
+      'lbs': 'kg',
+      'kg': 'lbs'
+    }
+
+    const returnUnit = inputToOutputUnit[initUnit.toLowerCase()]
+    if (returnUnit) {
+      return returnUnit
+    }
+
+    throw new TypeError(`Bad input: '${initUnit}' should be one of ${Object.keys(inputToOutputUnit).join(', ')}`) 
   };
 
   this.spellOutUnit = function(unit) {
-    var result;
-    
-    return result;
+    const abbrevToSpelledOut = {
+      'gal': 'gallons',
+      'l': 'liters',
+      'mi': 'miles',
+      'km': 'kilometers',
+      'lbs': 'pounds',
+      'kg': 'kilograms'
+    }
+
+    if (!unit) {
+      throw new TypeError(`Bad input: '${unit}' should be one of ${Object.keys(abbrevToSpelledOut).join(', ')}`)
+    }
+
+    const spelledOutUnit = abbrevToSpelledOut[unit.toLowerCase()]
+    if(spelledOutUnit) {
+      return spelledOutUnit
+    }
+
+    throw new TypeError(`Bad input: '${unit}' should be one of ${Object.keys(abbrevToSpelledOut).join(', ')}`)
   };
   
+  // TODO: improve error handling
   this.convert = function(initNum, initUnit) {
     const galToL = 3.78541;
     const lbsToKg = 0.453592;
     const miToKm = 1.60934;
-    var result;
     
-    return result;
+    const coeffConverters = {
+      'gal': galToL,
+      'l': 1 / galToL,
+      'lbs': lbsToKg,
+      'kg': 1 / lbsToKg,
+      'mi': miToKm,
+      'km': 1 / miToKm
+    }
+
+    if(!initUnit) {
+      throw new TypeError(`Bad input: '${initUnit}' should be one of ${Object.keys(coeffConverters).join(', ')}`)
+    }
+
+    const coeff = coeffConverters[initUnit.toLowerCase()]
+
+    if (!coeff) {
+      throw new TypeError(`Bad input: '${initUnit}' should be one of ${Object.keys(coeffConverters).join(', ')}`)
+    }
+
+    if(!initNum && initNum !== 0) {
+      throw new TypeError(`Bad input: ${initNum}`)
+    }
+
+    return initNum * coeff
+
   };
   
   this.getString = function(initNum, initUnit, returnNum, returnUnit) {
