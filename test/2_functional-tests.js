@@ -8,10 +8,10 @@
 
 var chaiHttp = require('chai-http');
 var chai = require('chai');
-var assert = chai.assert;
 var server = require('../server');
 
 chai.use(chaiHttp);
+chai.should()
 
 describe('Functional Tests', function() {
 
@@ -24,33 +24,53 @@ describe('Functional Tests', function() {
         .get('/api/convert')
         .query({input: '10L'})
         .end(function(err, res){
-          assert.equal(res.status, 200);
-          assert.equal(res.body.initNum, 10);
-          assert.equal(res.body.initUnit, 'L');
-          assert.approximately(res.body.returnNum, 2.64172, 0.1);
-          assert.equal(res.body.returnUnit, 'gal');
+          res.should.have.status(200);
+          res.body.initNum.should.equal(10);
+          res.body.initUnit.should.equal('L');
+          res.body.returnNum.should.be.closeTo(2.64172, 0.1);
+          res.body.returnUnit.should.equal('gal');
           done();
         });
       });
       
       it('Convert 32g (invalid input unit)', function(done) {
-        
-        //done();
+        chai.request(server)
+          .get('/api/convert')
+          .query({ input: '32g' })
+          .end(function(err, res) {
+            res.should.have.status(400)
+            done()
+          })
       });
       
       it('Convert 3/7.2/4kg (invalid number)', function(done) {
-        
-        //done();
+        chai.request(server)
+          .get('/api/convert')
+          .query({ input: '3/7.2/4kg' })
+          .end(function(err, res) {
+            res.should.have.status(400)
+            done()
+          })
       });  
       
       it('Convert 3/7.2/4kilomegagram (invalid number and unit)', function(done) {
-        
-        //done();
+        chai.request(server)
+          .get('/api/convert')
+          .query({ input: '3/7.2/4kilomegagram' })
+          .end(function(err, res) {
+            res.should.have.status(400)
+            done()
+          })
       });
       
       it('Convert kg (no number)', function(done) {
-        
-        //done();
+        chai.request(server)
+          .get('/api/convert')
+          .query({ input: 'kg' })
+          .end(function(err, res) {
+            res.should.have.status(400)
+            done()
+          })
       });
       
     });

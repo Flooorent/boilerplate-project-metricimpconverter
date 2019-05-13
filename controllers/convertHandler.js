@@ -24,11 +24,13 @@ function ConvertHandler() {
   
   this.getUnit = function(input) {
     const units = ['gal', 'l', 'mi', 'km', 'lbs', 'kg', 'GAL', 'L', 'MI', 'KM', 'LBS', 'KG']
-    if (units.includes(input)) {
-      return input
+    const inputUnit = input.replace(/[0-9]/g, '').replace(/\./g, '')
+
+    if (units.includes(inputUnit)) {
+      return inputUnit
     }
 
-    throw new TypeError(`Bad input: '${input}' should be one of ${units.join(', ')}`)
+    throw new TypeError(`Bad input: unit of '${input}' should be one of ${units.join(', ')}`)
   };
   
   this.getReturnUnit = function(initUnit) {
